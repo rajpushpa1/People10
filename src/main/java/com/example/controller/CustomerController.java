@@ -3,6 +3,8 @@ package com.example.controller;
 
 import com.example.pojo.Customer;
 import com.example.service.CustomerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +17,21 @@ import java.sql.SQLException;
 @RequestMapping("/api")
 public class CustomerController {
 
+    private static final Logger logger = LogManager.getLogger(CustomerController.class);
+
     @Inject
     private CustomerService customerService;
 
+    @CrossOrigin
     @GetMapping("/customer/{id}")
-    public ResponseEntity<Customer>  getEmployee(@PathVariable String id) throws SQLException {
-        Customer result = new Customer();
+    /**
+     * this method will return customer details on basis customer id...
+     */
+    public ResponseEntity<Customer>  getCustomer(@PathVariable String id) throws SQLException {
 
+        logger.info("Inside getCustomer Mehthod ==>>>" + id);
+
+        Customer result = new Customer();
         result = customerService.getEmployeeById(id);
         if (result == null) {
                 return new ResponseEntity<Customer>(result, HttpStatus.NOT_FOUND);
@@ -31,11 +41,18 @@ public class CustomerController {
     }
 
 
+    @CrossOrigin
     @PostMapping("/customer")
-    public  ResponseEntity<String> saveCustomer(@RequestBody @Valid Customer product) {
+    /**
+     * this method will save the customer details into db...
+     */
+    public  ResponseEntity<String> saveCustomer(@RequestBody @Valid Customer customer){
+
+        logger.info("Inside saveCustomer Mehthod ==>>>" + customer.toString());
         try {
-            customerService.insertEmployee(product);
+            customerService.insertEmployee(customer);
         }catch (Exception e){
+            logger.error("Exception ====" + e);
             return new ResponseEntity<String>( "User already exist!",HttpStatus.BAD_REQUEST);
 
         }

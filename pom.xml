@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>practice</artifactId>
+	<artifactId>people10</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>practice</name>
-	<description>Demo project for java8</description>
+	<description>Api for Room Booking Management System</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -98,6 +98,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>customer</finalName>
 	</build>
 
 </project>

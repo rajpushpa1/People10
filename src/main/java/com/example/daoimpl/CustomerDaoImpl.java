@@ -1,7 +1,10 @@
 package com.example.daoimpl;
 
+import com.example.controller.CustomerController;
 import com.example.dao.CustomerDao;
 import com.example.pojo.Customer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +17,9 @@ import java.sql.*;
 
 @Repository
 public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
+
+    private static final Logger logger = LogManager.getLogger(CustomerDaoImpl.class);
+
     @Autowired
     private DataSource dataSource;
     @PostConstruct
@@ -69,6 +75,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
     });
 
         }catch (Exception e){
+            logger.error("Exception ====" + e);
              return null; }
         return customer;
     }

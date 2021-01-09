@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
@@ -60,6 +61,24 @@ public class CustomerApplicationTests {
 		String outputInJson = response.getContentAsString();
 		System.out.println(outputInJson);
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+	}
+
+
+	@Test
+	public void getCustomer() throws Exception {
+
+		final Customer customer = new Customer();
+		String json = this.mapToJson(customer);
+		String URI = "/api/customer/1";
+		Mockito.when(customerService.getEmployeeById("1")).thenReturn(customer);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON).content(json)
+				.contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = result.getResponse();
+		String outputInJson = result.getResponse().getContentAsString();
+		System.out.println(outputInJson);
+		assertEquals(200, response.getStatus());
 	}
 
 
